@@ -1,5 +1,3 @@
-Viewed adv-08-unit-error-calculation.html:1-375
-
 針對 **`adv-08-unit-error-calculation` (誤差計算)** 單元，這是一個將「視覺幾何」轉化為「控制學」的核心橋樑。它教會學員如何量化偏差，並引進控制增益與濾波的概念，是邁向 PID 調控的關鍵基礎課。
 
 以下是在 **GitHub Classroom** 部署其作業 (Assignments) 的具體建議：
