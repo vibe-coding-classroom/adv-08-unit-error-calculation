@@ -1,0 +1,27 @@
+{
+  "name": "adv-08-unit-error-calculation",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "針對 **`adv-08-unit-error-calculation` (誤差計算)** 單元，這是一個將「視覺幾何」轉化為「控制學」的核心橋樑。它教會學員如何量化偏差，並引進控制增益與濾波的概念，是邁向 PID 調控的關鍵基礎課。",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "vitest run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vibe-coding-classroom/adv-08-unit-error-calculation.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vibe-coding-classroom/adv-08-unit-error-calculation/issues"
+  },
+  "homepage": "https://github.com/vibe-coding-classroom/adv-08-unit-error-calculation#readme",
+  "devDependencies": {
+    "vitest": "^4.1.5"
+  }
+}

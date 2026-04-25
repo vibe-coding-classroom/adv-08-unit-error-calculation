@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error Calculation & Control Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Adv-08: Error Calculation & Control</h1>
+            <p>Quantifying visual deviation and signal smoothing for precision control.</p>
+        </header>
+
+        <main>
+            <section class="visualizer-card">
+                <h2>Real-time Error Waveform</h2>
+                <canvas id="errorChart" width="600" height="300"></canvas>
+            </section>
+
+            <section class="controls-card">
+                <div class="control-group">
+                    <label for="kpRange">Proportional Gain (K<sub>p</sub>): <span id="kpValue">1.0</span></label>
+                    <input type="range" id="kpRange" min="0" max="100" step="0.1" value="1.0">
+                </div>
+                
+                <div class="stats">
+                    <div class="stat-item">
+                        <span class="label">Raw Coordinate:</span>
+                        <span id="rawCoord">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="label">Normalized Error:</span>
+                        <span id="normError">0.00</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="label">Smoothed Output:</span>
+                        <span id="smoothOutput">0.00</span>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button id="startSim">Start Simulation</button>
+                    <button id="stopSim" disabled>Stop Simulation</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script type="module">
+        import ErrorEngine from './js/error_app.js';
+        import GainControl from './js/gain_control.js';
+        import ChartPainter from './js/chart_painter.js';
+
+        // Dashboard Integration Logic
+        const engine = new ErrorEngine(5);
+        const controller = new GainControl(1.0, 100);
+        const painter = new ChartPainter('errorChart');
+
+        const kpRange = document.getElementById('kpRange');
+        const kpValue = document.getElementById('kpValue');
+        const startBtn = document.getElementById('startSim');
+        const stopBtn = document.getElementById('stopSim');
+
+        let simInterval = null;
+
+        kpRange.addEventListener('input', (e) => {
+            const val = e.target.value;
+            kpValue.textContent = val;
+            controller.setKp(val);
+        });
+
+        async function fetchMockData() {
+            const response = await fetch('data/mock_noise.json');
+            return await response.json();
+        }
+
+        startBtn.addEventListener('click', async () => {
+            const mock = await fetchMockData();
+            let idx = 0;
+            
+            startBtn.disabled = true;
+            stopBtn.disabled = false;
+
+            simInterval = setInterval(() => {
+                const rawX = mock.data[idx];
+                const width = mock.resolution.width;
+
+                const smoothed = engine.process(rawX, width);
+                const finalOutput = controller.calculateOutput(smoothed);
+
+                // Update UI
+                document.getElementById('rawCoord').textContent = rawX;
+                document.getElementById('normError').textContent = engine.normalizeError(rawX, width).toFixed(3);
+                document.getElementById('smoothOutput').textContent = finalOutput.toFixed(3);
+                
+                painter.addData(smoothed);
+
+                idx = (idx + 1) % mock.data.length;
+            }, 100);
+        });
+
+        stopBtn.addEventListener('click', () => {
+            clearInterval(simInterval);
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+        });
+    </script>
+</body>
+</html>

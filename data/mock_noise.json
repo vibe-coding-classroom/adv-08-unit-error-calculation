@@ -1,0 +1,10 @@
+{
+    "description": "Simulated noisy target coordinates for error calculation testing.",
+    "resolution": { "width": 320, "height": 240 },
+    "data": [
+        160, 162, 158, 165, 155, 170, 150, 160, 163, 157,
+        200, 205, 195, 210, 190, 200, 202, 198, 203, 197,
+        80, 85, 75, 90, 70, 80, 82, 78, 83, 77,
+        160, 161, 159, 162, 158, 160, 160, 160, 160, 160
+    ]
+}
