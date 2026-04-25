@@ -21,6 +21,7 @@ jobs:
         run: npm install
       - name: Run tests
         run: npm test
-      - name: Autograding Reporter
-        uses: education/autograding-grader@v1
-        continue-on-error: true
+      - name: Autograding
+        uses: education/autograding-command-grader@v1
+        with:
+          command: 'npm test'
