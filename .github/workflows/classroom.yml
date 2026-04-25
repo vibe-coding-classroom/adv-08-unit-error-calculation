@@ -21,4 +21,5 @@ jobs:
       - name: Autograding
         uses: education/autograding-command-grader@v1
         with:
+          test-name: 'Math and Filtering Tests'
           command: 'npm test'
